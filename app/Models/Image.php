@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 class Image extends Model
 {
@@ -19,8 +20,7 @@ class Image extends Model
         parent::boot();
 
         static::creating(function ($image) {
-            dump($image);
-            die();
+            $image->uuid = Uuid::uuid4()->toString();
         });
     }
 }

@@ -21,6 +21,9 @@ class ImageController extends Controller
             return $response->withStatus(422);
         }
 
+        /*
+         * Store the uploaded image
+         */
         $store = (new FileStore())->store($upload);
         dump($store->getStored());
 

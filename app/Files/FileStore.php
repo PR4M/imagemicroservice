@@ -17,6 +17,9 @@ class FileStore
 {
     protected $stored = null;
 
+    /*
+     * Storing image to the upload path
+     */
     public function store(UploadedFile $file)
     {
         try {
@@ -29,11 +32,17 @@ class FileStore
         return $this;
     }
 
+    /*
+     * Getter.
+     */
     public function getStored()
     {
         return $this->stored;
     }
 
+    /*
+     * Preserve Image when it's being uploaded
+     */
     protected function createModel(UploadedFile $file)
     {
         return $this->stored = Image::create();
