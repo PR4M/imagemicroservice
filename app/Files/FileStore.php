@@ -15,7 +15,7 @@ class FileStore
 {
     public function store(UploadedFile $file)
     {
-        $file->moveTo('');
+        $file->moveTo(uploads_path('abc.jpg'));
 
         return $this;
     }
