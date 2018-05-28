@@ -10,6 +10,7 @@ namespace App\Files;
 
 
 use App\Models\Image;
+use Ramsey\Uuid\Uuid;
 use Slim\Http\UploadedFile;
 
 class FileStore
@@ -35,8 +36,6 @@ class FileStore
 
     protected function createModel(UploadedFile $file)
     {
-        return $this->stored = Image::create([
-            'uuid' => '557fea84-6483-4809-ba26-26c310b9ac11'
-        ]);
+        return $this->stored = Image::create();
     }
 }

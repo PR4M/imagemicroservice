@@ -13,4 +13,14 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     protected $fillable = ['uuid'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($image) {
+            dump($image);
+            die();
+        });
+    }
 }
