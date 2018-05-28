@@ -16,11 +16,27 @@ $app = new Slim\App([
             'name' => getenv('APP_NAME')
         ],
 
-        
+        'database' => [
+          'driver' => 'mysql',
+          'host' => 'localhost',
+          'port' => '3306',
+          'database' => 'microimageservice',
+          'username' => 'root',
+          'pass' => '',
+          'charset' => 'utf8',
+          'collation' => 'utf8_unicode_ci',
+          'prefix' => '',
+        ],
 
     ],
 ]);
 
 $container = $app->getContainer();
+
+$capsule = new \Illuminate\Database\Capsule\Manager();
+$capsule->addConnection($container['settings']['database']);
+
+$capsule->setAsGlobal();
+$capsule->bootEloquent();
 
 require_once __DIR__ . '/../routes/api.php';
