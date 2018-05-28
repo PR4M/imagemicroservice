@@ -25,8 +25,15 @@ class ImageController extends Controller
          * Store the uploaded image
          */
         $store = (new FileStore())->store($upload);
-        dump($store->getStored());
 
-        die();
+        /*
+         * Return the image being upload, with simple JSON
+         */
+        return $response->withJson([
+           'data' => [
+               'uuid' => $store->getStored()->uuid
+           ]
+        ]);
+
     }
 }
