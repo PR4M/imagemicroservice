@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Exception;
 use App\Controllers\Controller;
 use App\Files\FileStore;
 use Psr\Http\Message\{
@@ -11,13 +12,20 @@ use Psr\Http\Message\{
 
 class ImageController extends Controller
 {
-    public static function store($request, $response, $args)
+
+    public function store($request, $response, $args)
     {
         /*
          * Check if the uploaded file is null,
          * return the 422 error code
          */
         if (!$upload = $request->getUploadedFiles()['file'] ?? null) {
+            return $response->withStatus(422);
+        }
+
+        try {
+            $this->c->image->make($upload->file);
+        } catch (\Exception $e) {
             return $response->withStatus(422);
         }
 

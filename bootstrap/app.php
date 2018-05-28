@@ -40,4 +40,10 @@ $capsule->setEventDispatcher(new \Illuminate\Events\Dispatcher());
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
+$container['image'] = function ($container) {
+    $manager = new \Intervention\Image\ImageManager();
+
+    return $manager;
+};
+
 require_once __DIR__ . '/../routes/api.php';
