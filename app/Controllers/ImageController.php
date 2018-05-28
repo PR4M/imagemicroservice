@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Image;
 use Exception;
 use App\Controllers\Controller;
 use App\Files\FileStore;
@@ -43,5 +44,38 @@ class ImageController extends Controller
            ]
         ]);
 
+    }
+
+    public function show($request, $response, $args)
+    {
+        extract($args);
+
+        try {
+            $image = Image::where('uuid', $uuid)->firstOrFail();
+        } catch (Exception $e) {
+            return $response->withStatus(404);
+        }
+
+        $response->getBody()->write(
+            $getImage = $this->c->image->make(uploads_path($image->uuid))->encode('png')
+        );
+
+        return $this->respondWithHeaders($response);
+    }
+
+    protected function respondWithHeaders($response)
+    {
+        foreach ($this->getResponseHeaders() as $header => $value) {
+            $response = $response->withHeader($header, $value);
+        }
+        
+        return $response;
+    }
+
+    protected function getResponseHeaders()
+    {
+        return [
+            'Content-Type' => 'image/png'
+        ];
     }
 }
