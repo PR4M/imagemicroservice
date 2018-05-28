@@ -81,11 +81,19 @@ class ImageController extends Controller
 
     protected function getProcessedImage($image, $request)
     {
-        return $getImage = $this->c->image->make(uploads_path($image->uuid))
-            ->resize(null, $this->getRequestedSize($request), function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('png');
+        return $this->c->image->cache(function ($builder) use ($image, $request) {
+            $this->processImage(
+              $builder->make(uploads_path($image->uuid)),
+              $request
+            );
+        });
+    }
+
+    protected function processImage($builder, $request)
+    {
+        return $builder->resize(null, $this->getRequestedSize($request), function ($constraint) {
+            $constraint->aspectRatio();
+        })->encode('png');
     }
 
     protected function getRequestedSize($request)

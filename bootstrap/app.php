@@ -28,6 +28,11 @@ $app = new Slim\App([
           'prefix' => '',
         ],
 
+        'image' => [
+            'cache' => [
+                'path' => base_path('storage/image/cache')
+            ]
+        ]
     ],
 ]);
 
@@ -42,6 +47,7 @@ $capsule->bootEloquent();
 
 $container['image'] = function ($container) {
     $manager = new \Intervention\Image\ImageManager();
+    $manager->configure($container['settings']['image']);
 
     return $manager;
 };
